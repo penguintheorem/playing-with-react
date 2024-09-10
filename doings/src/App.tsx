@@ -1,5 +1,18 @@
-import { Header } from './components/Header'
+import { Sidebar } from './components/Sidebar/Sidebar'
+import { TaskList } from './components/TaskList/TaskList'
+import './App.css'
 
 export const App = () => {
-  return <Header text="Doings" />
+  return (
+    <section className="container">
+      <div className="app">
+        <div className="app__sidebar">
+          <Sidebar />
+        </div>
+        <div className="app__task-list">
+          <TaskList />
+        </div>
+      </div>
+    </section>
+  )
 }
