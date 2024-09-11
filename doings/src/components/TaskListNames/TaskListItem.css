@@ -1,0 +1,8 @@
+.task-list-item {
+  padding: 1rem;
+}
+
+.task-list-item--is-active {
+  background-color: burlywood;
+  border-radius: 0.5rem;
+}

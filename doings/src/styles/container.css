@@ -1,25 +1,9 @@
 /* Container class */
 .container {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+  margin: 0;
 }
 
-@media (max-width: 1200px) {
-  .container {
-    max-width: 1000px;
-  }
-}
-
-@media (max-width: 992px) {
-  .container {
-    max-width: 750px;
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    max-width: 100%;
-  }
+.container--debug-with-borders {
+  border: 1px solid red;
 }

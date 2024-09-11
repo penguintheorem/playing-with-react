@@ -1,13 +1,14 @@
 import { TaskListNames } from '../TaskListNames/TaskListNames'
 import { UserProfile } from '../UserProfile/UserProfile'
+import './Sidebar.css'
 
 export const Sidebar = () => (
-  <section>
-    <div>
+  <section className="sidebar">
+    <div className="sidebar__profile">
       <UserProfile />
     </div>
-    <div>
-      <TaskListNames />
+    <div className="sidebar__task-list-names">
+      <TaskListNames taskNames={['Home', 'Groceries', 'Work', 'Children']} />
     </div>
   </section>
 )

@@ -1,7 +1,6 @@
 .app {
   display: flex;
   flex-wrap: wrap;
-  padding-top: 1rem;
 }
 
 .app__sidebar {

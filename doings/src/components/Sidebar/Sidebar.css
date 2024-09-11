@@ -1,0 +1,14 @@
+.sidebar {
+  background-color: blanchedalmond;
+  padding: 1rem;
+  height: 100vh;
+}
+
+.sidebar__profile {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid gray;
+}
+
+.sidebar__task-list-names {
+  margin-top: 1rem;
+}
