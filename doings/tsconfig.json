@@ -3,6 +3,7 @@
     "target": "es5",
     "types": ["cypress"],
     "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": ".",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,7 +16,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      "@root/*": ["src/*"],
+      "@components/*": ["src/components/*"]
+    }
   },
   "include": ["src", "cypress.d.ts"]
 }

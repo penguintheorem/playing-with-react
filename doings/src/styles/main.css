@@ -49,7 +49,7 @@ h4 {
 
 p {
   font-size: 1rem;
-  margin-bottom: 1rem;
+  margin: 0;
 }
 
 ul {
@@ -79,4 +79,12 @@ button {
 
 button:focus {
   outline: none;
+}
+
+input[type='checkbox'] {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  width: 16px;
+  height: 16px;
 }

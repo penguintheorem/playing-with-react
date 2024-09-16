@@ -1,8 +1,26 @@
 .task-list-item {
   padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .task-list-item--is-active {
   background-color: burlywood;
   border-radius: 0.5rem;
+}
+
+.task-list-item__button-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.task-list-item__button {
+  margin-left: 0.5rem;
+  width: 100%;
+}
+
+.task-list-item__undone-count {
+  opacity: 0.5;
 }

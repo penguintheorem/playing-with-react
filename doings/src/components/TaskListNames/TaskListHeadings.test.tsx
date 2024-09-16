@@ -1,14 +1,23 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
-import { TaskListNames } from './TaskListNames'
+import { TaskListHeadings } from './TaskListHeadings'
 
 /**
  * TODO: Can we write over tests over here?
  * TODO: Are the components well thought?
+ * TODO: fix these
  */
 describe('TaskListNames', () => {
   test('Properly renders the TaskListNames component', async () => {
-    render(<TaskListNames taskNames={['Task 1', 'Task 2', 'Task 3']} />)
+    render(
+      <TaskListHeadings
+        taskLists={[
+          { id: '1', name: 'Home', undoneCount: 1 },
+          { id: '2', name: 'Groceries', undoneCount: 2 },
+          { id: '3', name: 'Work', undoneCount: 3 },
+        ]}
+      />,
+    )
 
     const taskListNames = await screen.findByTestId('task-list-names')
 
@@ -16,7 +25,15 @@ describe('TaskListNames', () => {
   })
 
   test('Renders the ccorrect number of TaskListItem components', async () => {
-    render(<TaskListNames taskNames={['Task 1', 'Task 2', 'Task 3']} />)
+    render(
+      <TaskListHeadings
+        taskLists={[
+          { id: '1', name: 'Home', undoneCount: 1 },
+          { id: '2', name: 'Groceries', undoneCount: 2 },
+          { id: '3', name: 'Work', undoneCount: 3 },
+        ]}
+      />,
+    )
 
     const taskListItems = await screen.findAllByTestId('task-list-item-container')
 

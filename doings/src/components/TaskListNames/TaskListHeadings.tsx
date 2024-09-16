@@ -1,21 +1,23 @@
 import { useState } from 'react'
 import { TaskListItem } from './TaskListItem'
+import { TaskList } from '@root/types'
 
 type Props = {
-  taskNames: string[]
+  taskLists: TaskList[]
 }
 
-export const TaskListNames = ({ taskNames }: Props) => {
+export const TaskListHeadings = ({ taskLists }: Props) => {
   const [currentActiveTaskIndex, setCurrentActiveTaskIndex] = useState(0)
 
   return (
     <section data-testid="task-list-names">
       <ul>
-        {taskNames.map((taskName, index) => (
-          <li key={`${taskName}-${index}`} data-testid="task-list-item-container">
+        {taskLists.map(({ id, name, undoneCount }, index) => (
+          <li key={id} data-testid="task-list-item-container">
             <TaskListItem
-              taskName={taskName}
+              taskListName={name}
               isActive={index === currentActiveTaskIndex}
+              undoneCount={undoneCount}
               onSelect={() => setCurrentActiveTaskIndex(index)}
             />
           </li>

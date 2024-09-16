@@ -4,11 +4,11 @@
 }
 
 .app__sidebar {
-  flex-grow: 3;
+  flex-grow: 2;
 }
 
 .app__task-list {
-  flex-grow: 9;
+  flex-grow: 8;
 }
 
 @media (max-width: 768px) {

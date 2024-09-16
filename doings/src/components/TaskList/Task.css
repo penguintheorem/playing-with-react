@@ -1,0 +1,18 @@
+.task {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid gray;
+  background-color: floralwhite;
+}
+
+.task__checkbox {
+}
+
+.task__name {
+  margin-left: 1rem;
+}
+
+.task__delete-button {
+  margin-left: auto;
+}
