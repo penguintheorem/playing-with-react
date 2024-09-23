@@ -1,12 +1,13 @@
+import { User } from '@root/types'
 import './UserProfile.css'
 
-export const UserProfile = () => (
+type Props = {
+  user: User
+}
+
+export const UserProfile = ({ user }: Props) => (
   <section className="user-profile">
-    <img
-      className="user-profile__avatar"
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw4xIzlTTRJKIQB1tq1Jbs5Rfj7hU6h1UtPg&s"
-      alt="avatar"
-    />
-    <div className="user-profile__name">John Doe</div>
+    <img className="user-profile__avatar" src={user.image} alt="avatar" />
+    <div className="user-profile__name">{user.name}</div>
   </section>
 )

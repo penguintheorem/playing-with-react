@@ -1,0 +1,16 @@
+.add-task {
+  background-color: burlywood;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  height: 60px;
+}
+
+.add-task__input {
+  /* border: 1px solid red; */
+  border: none;
+  background-color: transparent;
+  margin-left: 1rem;
+  font-size: 1.25rem;
+}

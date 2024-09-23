@@ -6,6 +6,10 @@
   background-color: floralwhite;
 }
 
+.task--is-active {
+  text-decoration: line-through;
+}
+
 .task__checkbox {
 }
 

@@ -3,8 +3,23 @@
   flex-wrap: wrap;
 }
 
-.app__sidebar {
+.app__sidebar-container {
   flex-grow: 2;
+}
+
+.app__sidebar {
+  background-color: blanchedalmond;
+  padding: 1.5rem;
+  height: 100vh;
+}
+
+.app__profile {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid gray;
+}
+
+.app__task-list-names {
+  margin-top: 1rem;
 }
 
 .app__task-list {
