@@ -182,7 +182,7 @@ export const App = () => {
       [taskLists[currentTaskListIndex].id]: newTasks,
     })
 
-    addToListCount(currentTaskListIndex, newTasks[oldTaskIndex].isCompleted ? 0 : -1)
+    addToListCount(currentTaskListIndex, tasks[oldTaskIndex].isCompleted ? 0 : -1)
   }
 
   return (

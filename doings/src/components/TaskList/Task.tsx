@@ -3,14 +3,15 @@ import { Trash2 as TrashIcon } from 'react-feather'
 import './Task.css'
 import { useState } from 'react'
 import classNames from 'classnames'
+import { TaskName } from './TaskName'
 
 type Props = {
   task: TaskType
-  onToggleComplete: (isCompleted: boolean) => void
-  onRemove?: () => void
+  onUpdateTask: (taskId: string, taskData: Partial<TaskType>) => void
+  onRemove: (taskId: string) => void
 }
 
-export const Task = ({ task, onToggleComplete }: Props) => {
+export const Task = ({ task, onUpdateTask, onRemove }: Props) => {
   const [isCompleted, setIsCompleted] = useState(task.isCompleted)
 
   return (
@@ -21,11 +22,17 @@ export const Task = ({ task, onToggleComplete }: Props) => {
         checked={isCompleted}
         onChange={() => {
           setIsCompleted(!isCompleted)
-          onToggleComplete(!isCompleted)
+          onUpdateTask(task.id, { isCompleted: !isCompleted })
         }}
       />
-      <p className="task__name">{task.name}</p>
-      <button className="task__delete-button">
+      <div className="task__name">
+        <TaskName
+          name={task.name}
+          isEditable={!task.isCompleted}
+          onSetTaskName={(newTaskName: string) => onUpdateTask(task.id, { name: newTaskName })}
+        />
+      </div>
+      <button className="task__delete-button" onClick={() => onRemove(task.id)}>
         <TrashIcon />
       </button>
     </section>

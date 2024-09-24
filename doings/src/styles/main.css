@@ -94,3 +94,17 @@ input[type='text']:focus,
 textarea:focus {
   outline: none;
 }
+
+input[type='text'] {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%; /* Optional, depending on layout */
+  padding: 0.5rem; /* Optional padding */
+  margin: 0;
+  border: none;
+  background-color: transparent; /* Reset background color */
+  font-family: inherit; /* Use the parent element's font */
+  font-size: inherit; /* Inherit the font size */
+  color: inherit; /* Inherit the font color */
+  outline: none; /* Remove outline */
+}

@@ -3,20 +3,15 @@ import { Task } from './Task'
 
 type Props = {
   tasks: TaskType[]
-  onToggleTaskComplete: (taskId: string, taskData: Partial<TaskType>) => void
+  onUpdateTask: (taskId: string, taskData: Partial<TaskType>) => void
+  onDeleteTask: (taskId: string) => void
 }
 
-export const TaskList = ({ tasks, onToggleTaskComplete }: Props) => (
+export const TaskList = ({ tasks, onUpdateTask, onDeleteTask }: Props) => (
   <section>
     <ul>
       {tasks.map((task) => (
-        <Task
-          key={task.id}
-          task={task}
-          onToggleComplete={(isCompleted: boolean) =>
-            onToggleTaskComplete(task.id, { isCompleted })
-          }
-        />
+        <Task key={task.id} task={task} onUpdateTask={onUpdateTask} onRemove={onDeleteTask} />
       ))}
     </ul>
   </section>
