@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import { Plus as PlusIcon } from 'react-feather'
+import { v4 as uuid } from 'uuid'
+import './App.css'
 import { TaskListHeadings } from './components/TaskListNames/TaskListHeadings'
 import { TaskListView } from './components/TaskListView/TaskListView'
 import { UserProfile } from './components/UserProfile/UserProfile'
 import { Task, TaskList as TaskListType, User } from './types'
-import { v4 as uuid } from 'uuid'
-import './App.css'
 
 /**
  * To be properly fetched from API
@@ -105,6 +106,9 @@ export const App = () => {
     setTasks(allTasks[taskLists[taskListIndex].id] ?? [])
   }
 
+  /**
+   * State management
+   */
   const handleCreate = (taskName: string) => {
     const newTask = {
       id: uuid(),
@@ -185,6 +189,35 @@ export const App = () => {
     addToListCount(currentTaskListIndex, tasks[oldTaskIndex].isCompleted ? 0 : -1)
   }
 
+  const handleAddTaskList = () => {
+    const newTaskList: TaskListType = {
+      id: uuid(),
+      name: 'New task list',
+      undoneCount: 0,
+    }
+    setTaskLists((currentTaskList) => [...currentTaskList, newTaskList])
+    setAllTasks((currentTasks) => ({
+      ...currentTasks,
+      [newTaskList.id]: [],
+    }))
+  }
+
+  const handleDeleteList = (listId: string) => {
+    console.log(`Invoke handleDeleteList on listId: ${listId}`)
+    const newTaskLists = [...taskLists]
+    const listIndex = newTaskLists.findIndex(({ id }) => listId === id)
+    newTaskLists.splice(listIndex, 1)
+
+    setTaskLists(newTaskLists)
+
+    const newAllTasks = Object.keys(allTasks).reduce(
+      (prevAllTasks, key) =>
+        key !== listId ? { ...prevAllTasks, [key]: allTasks[key] } : prevAllTasks,
+      {},
+    )
+    setAllTasks(newAllTasks)
+  }
+
   return (
     <section className="container">
       <div className="app">
@@ -200,14 +233,22 @@ export const App = () => {
                 onTaskListSelect={handleTaskListSelect}
               />
             </div>
+            <div className="app__add-task-list">
+              <PlusIcon />
+              <button className="app__add-task-list-button" onClick={handleAddTaskList}>
+                New task list
+              </button>
+            </div>
           </section>
         </div>
         <div className="app__task-list">
           <TaskListView
+            list={taskLists[currentTaskListIndex]}
             tasks={tasks}
             onCreateTask={handleCreate}
             onUpdateTask={handleUpdate}
             onDeleteTask={handleDelete}
+            onDeleteList={handleDeleteList}
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Task as TaskType } from '@root/types'
+import { Task as TaskType } from 'src/types'
 import { Trash2 as TrashIcon } from 'react-feather'
 import './Task.css'
 import { useState } from 'react'

@@ -1,7 +1,19 @@
 .task-list-view {
-  padding: 0 1rem;
+  padding: 0 2rem;
   position: relative;
   height: 100%;
+}
+
+.task-list-view__header {
+  margin-top: 1rem;
+}
+
+.task-list-view__title {
+  display: inline-block;
+}
+
+.task-list__delete-button {
+  margin-left: 0.5rem;
 }
 
 .task-list-view__heading {
@@ -13,4 +25,6 @@
   position: absolute;
   bottom: 0;
   left: 0;
+  padding: 0.5rem;
+  background-color: burlywood;
 }

@@ -1,4 +1,4 @@
-import { Task as TaskType } from '@root/types'
+import { Task as TaskType } from 'src/types'
 import { Task } from './Task'
 
 type Props = {

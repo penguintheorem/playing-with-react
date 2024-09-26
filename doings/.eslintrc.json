@@ -15,7 +15,8 @@
     "import/extensions": "off",
     "import/no-unresolved": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "prettier/prettier": ["error"]
+    "prettier/prettier": ["error"],
+    "@typescript-eslint/no-empty-function": "off"
   },
   "settings": {
     "import/resolver": {

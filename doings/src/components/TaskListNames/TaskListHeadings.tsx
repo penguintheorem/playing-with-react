@@ -1,4 +1,4 @@
-import { TaskList } from '@root/types'
+import { TaskList } from 'src/types'
 import { TaskListItem } from './TaskListItem'
 
 type Props = {

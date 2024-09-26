@@ -1,10 +1,11 @@
 .app {
   display: flex;
   flex-wrap: wrap;
+  overflow: hidden;
 }
 
 .app__sidebar-container {
-  flex-grow: 2;
+  flex: 1;
 }
 
 .app__sidebar {
@@ -22,13 +23,27 @@
   margin-top: 1rem;
 }
 
-.app__task-list {
-  flex-grow: 8;
+.app__add-task-list {
+  display: flex;
+  align-items: center;
+  padding-left: 1.5rem;
+  padding-bottom: 1.5rem;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 
-@media (max-width: 768px) {
+.app__add-task-list-button {
+  margin-left: 1rem;
+}
+
+.app__task-list {
+  flex: 3;
+}
+
+@media (max-width: 576px) {
   .app__sidebar,
   .app__task-list {
-    flex: 0 0 100%;
+    flex: 100%;
   }
 }

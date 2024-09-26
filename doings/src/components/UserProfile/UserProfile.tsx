@@ -1,4 +1,4 @@
-import { User } from '@root/types'
+import { User } from 'src/types'
 import './UserProfile.css'
 
 type Props = {
