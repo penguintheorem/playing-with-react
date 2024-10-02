@@ -3,7 +3,7 @@ import { Trash2 as TrashIcon } from 'react-feather'
 import './Task.css'
 import { useState } from 'react'
 import classNames from 'classnames'
-import { TaskName } from './TaskName'
+import { EditableText } from '../EditableText/EditableText'
 
 type Props = {
   task: TaskType
@@ -26,10 +26,10 @@ export const Task = ({ task, onUpdateTask, onRemove }: Props) => {
         }}
       />
       <div className="task__name">
-        <TaskName
-          name={task.name}
+        <EditableText
+          defaultText={task.name}
           isEditable={!task.isCompleted}
-          onSetTaskName={(newTaskName: string) => onUpdateTask(task.id, { name: newTaskName })}
+          onSetText={(newTaskName: string) => onUpdateTask(task.id, { name: newTaskName })}
         />
       </div>
       <button className="task__delete-button" onClick={() => onRemove(task.id)}>

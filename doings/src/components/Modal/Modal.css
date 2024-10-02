@@ -1,0 +1,26 @@
+.modal {
+  padding: 1rem;
+  text-align: center;
+}
+
+.modal__actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal__button {
+  border: 1px solid black;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.modal__button--is-danger {
+  background-color: red;
+  color: white;
+}
+
+.modal__button--is-cancel {
+  background-color: grey;
+  color: white;
+}

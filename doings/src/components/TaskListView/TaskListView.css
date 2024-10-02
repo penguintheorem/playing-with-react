@@ -6,6 +6,9 @@
 
 .task-list-view__header {
   margin-top: 1rem;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .task-list-view__title {

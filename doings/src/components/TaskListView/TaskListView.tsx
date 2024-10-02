@@ -3,7 +3,10 @@ import { useModal } from 'src/hooks'
 import { TaskList } from '../TaskList/TaskList'
 import { AddTask } from '../AddTask/AddTask'
 import { Trash2 as TrashIcon } from 'react-feather'
+import ReactModal from 'react-modal'
 import './TaskListView.css'
+import { Modal } from '../Modal/Modal'
+import { EditableText } from '../EditableText/EditableText'
 
 type Props = {
   list: TaskListType
@@ -12,6 +15,7 @@ type Props = {
   onUpdateTask: (taskId: string, taskData: Partial<Task>) => void
   onDeleteTask: (taskId: string) => void
   onDeleteList: (listId: string) => void
+  onRenameList: (listId: string, newName: string) => void
 }
 
 export const TaskListView = ({
@@ -21,6 +25,7 @@ export const TaskListView = ({
   onUpdateTask,
   onDeleteTask,
   onDeleteList,
+  onRenameList,
 }: Props) => {
   const completedTasks = tasks.filter(({ isCompleted }) => isCompleted === true)
   const uncompletedTasks = tasks.filter(({ isCompleted }) => isCompleted === false)
@@ -29,11 +34,59 @@ export const TaskListView = ({
   return (
     <div className="task-list-view">
       <div className="task-list-view__header">
-        <h3 className="task-list-view__title">{list.name}</h3>
-        <button className="task-list__delete-button" onClick={() => onDeleteList(list.id)}>
+        <div className="task-list-view__title">
+          <EditableText
+            key={list.id}
+            defaultText={list.name}
+            isEditable={true}
+            onSetText={(newText: string) => onRenameList(list.id, newText)}
+            customStyles={{
+              paddingLeft: 0,
+              fontWeight: 'bold',
+              fontSize: '2rem',
+            }}
+          />
+        </div>
+        <button className="task-list__delete-button" onClick={openModal}>
           <TrashIcon />
         </button>
       </div>
+      <ReactModal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={{
+          overlay: {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(255, 255, 255, 0.75)',
+          },
+          content: {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            padding: '20px',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            overflow: 'auto',
+            width: '600px',
+            outline: 'none',
+            maxHeight: '200px',
+          },
+        }}
+      >
+        <Modal
+          text={`Do you really want to cancel the list ${list.name}?`}
+          onConfirm={() => {
+            onDeleteList(list.id)
+            closeModal()
+          }}
+          onCancel={closeModal}
+        />
+      </ReactModal>
       {tasks.length ? (
         <>
           <h4 className="task-list-view__heading">Doings</h4>

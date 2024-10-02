@@ -210,12 +210,28 @@ export const App = () => {
 
     setTaskLists(newTaskLists)
 
-    const newAllTasks = Object.keys(allTasks).reduce(
+    const newAllTasks: { [listId: string]: Task[] } = Object.keys(allTasks).reduce(
       (prevAllTasks, key) =>
         key !== listId ? { ...prevAllTasks, [key]: allTasks[key] } : prevAllTasks,
       {},
     )
     setAllTasks(newAllTasks)
+
+    // select new tasks
+    setCurrentTaskListIndex(0)
+    setTasks(newAllTasks[newTaskLists[0].id] ?? [])
+  }
+
+  const handleRenameList = (listId: string, newName: string) => {
+    console.log(`Invoke handleRenameList on listId: ${listId}`)
+    const newTaskLists = [...taskLists]
+    const taskListIndex = newTaskLists.findIndex(({ id }) => listId === id)
+    const newTaskList: TaskListType = {
+      ...newTaskLists[taskListIndex],
+      name: newName,
+    }
+
+    newTaskLists[taskListIndex] = newTaskList
   }
 
   return (
@@ -249,6 +265,7 @@ export const App = () => {
             onUpdateTask={handleUpdate}
             onDeleteTask={handleDelete}
             onDeleteList={handleDeleteList}
+            onRenameList={handleRenameList}
           />
         </div>
       </div>
