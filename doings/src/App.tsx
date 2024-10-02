@@ -127,8 +127,6 @@ export const App = () => {
   }
 
   const addToListCount = (listIndex: number, count: number) => {
-    console.log(`App#addToListCount invoked with listIndex: ${listIndex} and count: ${count}`)
-
     // cloning
     const newTaskLists = [...taskLists]
     // updating, in an immutable way
@@ -143,10 +141,6 @@ export const App = () => {
   }
 
   const handleUpdate = (taskId: string, taskData: Partial<Task>) => {
-    console.log(
-      `App#handleUpdate invoked with taskId: ${taskId} and taskData: ${JSON.stringify(taskData)}`,
-    )
-
     // cloning
     const newTasks = [...tasks]
     const oldTaskIndex = newTasks.findIndex(({ id }) => taskId === id)
@@ -203,7 +197,6 @@ export const App = () => {
   }
 
   const handleDeleteList = (listId: string) => {
-    console.log(`Invoke handleDeleteList on listId: ${listId}`)
     const newTaskLists = [...taskLists]
     const listIndex = newTaskLists.findIndex(({ id }) => listId === id)
     newTaskLists.splice(listIndex, 1)
@@ -218,12 +211,15 @@ export const App = () => {
     setAllTasks(newAllTasks)
 
     // select new tasks
-    setCurrentTaskListIndex(0)
-    setTasks(newAllTasks[newTaskLists[0].id] ?? [])
+    if (newTaskLists.length > 0) {
+      setCurrentTaskListIndex(0)
+      setTasks(newAllTasks[newTaskLists[0].id] ?? [])
+    } else {
+      setTasks([])
+    }
   }
 
   const handleRenameList = (listId: string, newName: string) => {
-    console.log(`Invoke handleRenameList on listId: ${listId}`)
     const newTaskLists = [...taskLists]
     const taskListIndex = newTaskLists.findIndex(({ id }) => listId === id)
     const newTaskList: TaskListType = {
@@ -232,6 +228,8 @@ export const App = () => {
     }
 
     newTaskLists[taskListIndex] = newTaskList
+
+    setTaskLists(newTaskLists)
   }
 
   return (
@@ -243,11 +241,15 @@ export const App = () => {
               <UserProfile user={user} />
             </div>
             <div className="app__task-list-names">
-              <TaskListHeadings
-                taskLists={taskLists}
-                activeTaskListIndex={currentTaskListIndex}
-                onTaskListSelect={handleTaskListSelect}
-              />
+              {taskLists.length === 0 ? (
+                <p>No task lists available</p>
+              ) : (
+                <TaskListHeadings
+                  taskLists={taskLists}
+                  activeTaskListIndex={currentTaskListIndex}
+                  onTaskListSelect={handleTaskListSelect}
+                />
+              )}
             </div>
             <div className="app__add-task-list">
               <PlusIcon />
@@ -258,15 +260,19 @@ export const App = () => {
           </section>
         </div>
         <div className="app__task-list">
-          <TaskListView
-            list={taskLists[currentTaskListIndex]}
-            tasks={tasks}
-            onCreateTask={handleCreate}
-            onUpdateTask={handleUpdate}
-            onDeleteTask={handleDelete}
-            onDeleteList={handleDeleteList}
-            onRenameList={handleRenameList}
-          />
+          {taskLists.length === 0 ? (
+            <p>No task lists available, please create a list</p>
+          ) : (
+            <TaskListView
+              list={taskLists[currentTaskListIndex]}
+              tasks={tasks}
+              onCreateTask={handleCreate}
+              onUpdateTask={handleUpdate}
+              onDeleteTask={handleDelete}
+              onDeleteList={handleDeleteList}
+              onRenameList={handleRenameList}
+            />
+          )}
         </div>
       </div>
     </section>
