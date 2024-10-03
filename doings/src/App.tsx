@@ -5,6 +5,10 @@ import { TaskListView } from './components/TaskListView/TaskListView'
 import { UserProfile } from './components/UserProfile/UserProfile'
 import { Task, TaskList as TaskListType, User } from './types'
 import { get, httpDelete, patch, post } from './utils/api'
+import { useModal } from './hooks'
+import ReactModal from 'react-modal'
+import { reactModalStyles } from './styles/reactModalStyles'
+import { Modal } from './components/Modal/Modal'
 import './App.css'
 
 type TaskResponse = {
@@ -38,17 +42,21 @@ export const App = () => {
   const [taskLists, setTaskLists] = useState<TaskListType[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
   const [user, setUser] = useState<User | undefined>(undefined)
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  const { isModalOpen, openModal, closeModal } = useModal()
 
   useEffect(() => {
-    console.log(`App#useEffect Runs`)
     const fetchData = async () => {
-      const taskLists = await get<TaskListResponse[]>('/lists')
-      const user = await get<User>('/user')
-      console.log(`Printing task lists: ${JSON.stringify(taskLists)}`)
-      console.log(`Printing user: ${JSON.stringify(user)}`)
+      try {
+        const taskLists = await get<TaskListResponse[]>('/lists')
+        const user = await get<User>('/user')
 
-      setTaskLists(taskLists.map(convertTaskListResponseToTaskList))
-      setUser(user)
+        setTaskLists(taskLists.map(convertTaskListResponseToTaskList))
+        setUser(user)
+      } catch (error: any) {
+        setErrorMessage(error.message)
+        openModal()
+      }
     }
 
     fetchData()
@@ -60,9 +68,7 @@ export const App = () => {
 
   const handleTaskListSelect = async (taskListIndex: number) => {
     const currentTaskList = taskLists[taskListIndex]
-    console.log(`handleTaskListSelect: request tasks for ${currentTaskList?.id}`)
     const allTasks = await get<TaskResponse[]>(`/todos?listId=${currentTaskList.id}`)
-    console.log(`handleTaskListSelect response: ${JSON.stringify(allTasks)}`)
 
     setCurrentTaskListIndex(taskListIndex)
     setTasks(allTasks.map(convertTaskResponseToTask))
@@ -87,7 +93,6 @@ export const App = () => {
       name: 'New task list',
     })
 
-    console.log(`handleAddTaskList, response: ${JSON.stringify(newTaskList)}`)
     setTaskLists((currentTaskList) => [
       ...currentTaskList,
       convertTaskListResponseToTaskList(newTaskList),
@@ -95,10 +100,7 @@ export const App = () => {
   }
 
   const handleDeleteList = async (listId: string) => {
-    const response = await httpDelete<TaskListType>(`/lists/${listId}`)
-
-    console.log(`handleDeleteList, response: ${JSON.stringify(response)}`)
-    // TODO: catch errors
+    await httpDelete<TaskListType>(`/lists/${listId}`)
 
     const newTaskLists = [...taskLists]
     const listIndex = newTaskLists.findIndex(({ id }) => listId === id)
@@ -107,16 +109,12 @@ export const App = () => {
     setTaskLists(newTaskLists)
 
     setCurrentTaskListIndex(-1)
-    // setTasks([])
   }
 
   const handleRenameList = async (listId: string, newName: string) => {
-    const response = await patch<TaskListType, { name: string }>(`/lists/${listId}`, {
+    await patch<TaskListType, { name: string }>(`/lists/${listId}`, {
       name: newName,
     })
-
-    console.log(`handleRenameList, response: ${JSON.stringify(response)}`)
-    // TODO: catch errors
 
     const newTaskLists = [...taskLists]
     const taskListIndex = newTaskLists.findIndex(({ id }) => listId === id)
@@ -140,9 +138,6 @@ export const App = () => {
       },
     )
 
-    console.log(`handleCreate, response: ${JSON.stringify(newTask)}`)
-    // TODO: catch errors
-
     const newTasks: Task[] = [
       ...tasks,
       {
@@ -165,8 +160,6 @@ export const App = () => {
       },
     )
 
-    console.log(`handleUpdate, response: ${JSON.stringify(updatedTask)}`)
-    // TODO: catch errors
     // cloning
     const newTasks = [...tasks]
     const oldTaskIndex = newTasks.findIndex(({ id }) => taskId === id)
@@ -186,8 +179,6 @@ export const App = () => {
   const handleDelete = async (taskId: string) => {
     const response = await httpDelete<TaskResponse>(`/todos/${taskId}`)
 
-    console.log(`handleDelete, response: ${JSON.stringify(response)}`)
-
     const newTasks = [...tasks]
     const oldTaskIndex = newTasks.findIndex(({ id }) => taskId === id)
     // delete, in an immutable way
@@ -198,46 +189,51 @@ export const App = () => {
   }
 
   return (
-    <section className="container">
-      <div className="app">
-        <div className="app__sidebar-container">
-          <section className="app__sidebar">
-            <div className="app__profile">{user && <UserProfile user={user} />}</div>
-            <div className="app__task-list-names">
-              {taskLists.length === 0 ? (
-                <p>No task lists available</p>
-              ) : (
-                <TaskListHeadings
-                  taskLists={taskLists}
-                  activeTaskListIndex={currentTaskListIndex}
-                  onTaskListSelect={handleTaskListSelect}
-                />
-              )}
-            </div>
-            <div className="app__add-task-list">
-              <PlusIcon />
-              <button className="app__add-task-list-button" onClick={handleAddTaskList}>
-                New task list
-              </button>
-            </div>
-          </section>
+    <>
+      <section className="container">
+        <div className="app">
+          <div className="app__sidebar-container">
+            <section className="app__sidebar">
+              <div className="app__profile">{user && <UserProfile user={user} />}</div>
+              <div className="app__task-list-names">
+                {taskLists.length === 0 ? (
+                  <p>No task lists available</p>
+                ) : (
+                  <TaskListHeadings
+                    taskLists={taskLists}
+                    activeTaskListIndex={currentTaskListIndex}
+                    onTaskListSelect={handleTaskListSelect}
+                  />
+                )}
+              </div>
+              <div className="app__add-task-list">
+                <PlusIcon />
+                <button className="app__add-task-list-button" onClick={handleAddTaskList}>
+                  New task list
+                </button>
+              </div>
+            </section>
+          </div>
+          <div className="app__task-list">
+            {taskLists.length === 0 || currentTaskListIndex < 0 ? (
+              <p>No task lists available, please create or select a list</p>
+            ) : (
+              <TaskListView
+                list={taskLists[currentTaskListIndex]}
+                tasks={tasks}
+                onCreateTask={handleCreate}
+                onUpdateTask={handleUpdate}
+                onDeleteTask={handleDelete}
+                onDeleteList={handleDeleteList}
+                onRenameList={handleRenameList}
+              />
+            )}
+          </div>
         </div>
-        <div className="app__task-list">
-          {taskLists.length === 0 || currentTaskListIndex < 0 ? (
-            <p>No task lists available, please create or select a list</p>
-          ) : (
-            <TaskListView
-              list={taskLists[currentTaskListIndex]}
-              tasks={tasks}
-              onCreateTask={handleCreate}
-              onUpdateTask={handleUpdate}
-              onDeleteTask={handleDelete}
-              onDeleteList={handleDeleteList}
-              onRenameList={handleRenameList}
-            />
-          )}
-        </div>
-      </div>
-    </section>
+      </section>
+      <ReactModal isOpen={isModalOpen} onRequestClose={closeModal} style={reactModalStyles}>
+        <Modal text={`Request failing, reason: ${errorMessage}`} onConfirm={closeModal} />
+      </ReactModal>
+    </>
   )
 }

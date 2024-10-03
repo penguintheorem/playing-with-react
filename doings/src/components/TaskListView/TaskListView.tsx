@@ -4,9 +4,10 @@ import { TaskList } from '../TaskList/TaskList'
 import { AddTask } from '../AddTask/AddTask'
 import { Trash2 as TrashIcon } from 'react-feather'
 import ReactModal from 'react-modal'
-import './TaskListView.css'
 import { Modal } from '../Modal/Modal'
 import { EditableText } from '../EditableText/EditableText'
+import { reactModalStyles } from 'src/styles/reactModalStyles'
+import './TaskListView.css'
 
 type Props = {
   list: TaskListType
@@ -51,33 +52,7 @@ export const TaskListView = ({
           <TrashIcon />
         </button>
       </div>
-      <ReactModal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        style={{
-          overlay: {
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(255, 255, 255, 0.75)',
-          },
-          content: {
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            padding: '20px',
-            borderRadius: '5px',
-            border: '1px solid #ccc',
-            overflow: 'auto',
-            width: '600px',
-            outline: 'none',
-            maxHeight: '200px',
-          },
-        }}
-      >
+      <ReactModal isOpen={isModalOpen} onRequestClose={closeModal} style={reactModalStyles}>
         <Modal
           text={`Do you really want to cancel the list ${list.name}?`}
           onConfirm={() => {

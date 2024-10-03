@@ -3,7 +3,7 @@ import './Modal.css'
 type Props = {
   text: string
   onConfirm: () => void
-  onCancel: () => void
+  onCancel?: () => void
 }
 
 export const Modal = ({ text, onConfirm, onCancel }: Props) => {
@@ -14,9 +14,11 @@ export const Modal = ({ text, onConfirm, onCancel }: Props) => {
         <button className="modal__button modal__button--is-danger" onClick={onConfirm}>
           Confirm
         </button>
-        <button className="modal__button modal__button--is-cancel" onClick={onCancel}>
-          Cancel
-        </button>
+        {onCancel && (
+          <button className="modal__button modal__button--is-cancel" onClick={onCancel}>
+            Cancel
+          </button>
+        )}
       </div>
     </div>
   )
