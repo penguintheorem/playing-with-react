@@ -13,21 +13,11 @@ type Props = {
   list: TaskListType
   tasks: Task[]
   onCreateTask: (taskName: string) => void
-  onUpdateTask: (taskId: string, taskData: Partial<Task>) => void
-  onDeleteTask: (taskId: string) => void
   onDeleteList: (listId: string) => void
   onRenameList: (listId: string, newName: string) => void
 }
 
-export const TaskListView = ({
-  list,
-  tasks,
-  onCreateTask,
-  onUpdateTask,
-  onDeleteTask,
-  onDeleteList,
-  onRenameList,
-}: Props) => {
+export const TaskListView = ({ list, tasks, onCreateTask, onDeleteList, onRenameList }: Props) => {
   const completedTasks = tasks.filter(({ isCompleted }) => isCompleted === true)
   const uncompletedTasks = tasks.filter(({ isCompleted }) => isCompleted === false)
   const { isModalOpen, openModal, closeModal } = useModal()
@@ -65,17 +55,9 @@ export const TaskListView = ({
       {tasks.length ? (
         <>
           <h4 className="task-list-view__heading">Doings</h4>
-          <TaskList
-            tasks={uncompletedTasks}
-            onUpdateTask={onUpdateTask}
-            onDeleteTask={onDeleteTask}
-          />
+          <TaskList tasks={uncompletedTasks} />
           <h4 className="task-list-view__heading">Completed tasks</h4>
-          <TaskList
-            tasks={completedTasks}
-            onUpdateTask={onUpdateTask}
-            onDeleteTask={onDeleteTask}
-          />
+          <TaskList tasks={completedTasks} />
         </>
       ) : (
         <p>List empty! You can add a new task from the input at the bottom.</p>

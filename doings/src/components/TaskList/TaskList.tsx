@@ -3,15 +3,13 @@ import { Task } from './Task'
 
 type Props = {
   tasks: TaskType[]
-  onUpdateTask: (taskId: string, taskData: Partial<TaskType>) => void
-  onDeleteTask: (taskId: string) => void
 }
 
-export const TaskList = ({ tasks, onUpdateTask, onDeleteTask }: Props) => (
+export const TaskList = ({ tasks }: Props) => (
   <section>
     <ul>
       {tasks.map((task) => (
-        <Task key={task.id} task={task} onUpdateTask={onUpdateTask} onRemove={onDeleteTask} />
+        <Task key={task.id} task={task} />
       ))}
     </ul>
   </section>

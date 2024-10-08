@@ -1,18 +1,18 @@
 import { Task as TaskType } from 'src/types'
 import { Trash2 as TrashIcon } from 'react-feather'
 import './Task.css'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import classNames from 'classnames'
 import { EditableText } from '../EditableText/EditableText'
+import { TaskContext } from '../../TaskContext'
 
 type Props = {
   task: TaskType
-  onUpdateTask: (taskId: string, taskData: Partial<TaskType>) => void
-  onRemove: (taskId: string) => void
 }
 
-export const Task = ({ task, onUpdateTask, onRemove }: Props) => {
+export const Task = ({ task }: Props) => {
   const [isCompleted, setIsCompleted] = useState(task.isCompleted)
+  const { onDeleteTask, onUpdateTask } = useContext(TaskContext)
 
   return (
     <section className={classNames('task', { 'task--is-active': isCompleted })}>
@@ -32,7 +32,7 @@ export const Task = ({ task, onUpdateTask, onRemove }: Props) => {
           onSetText={(newTaskName: string) => onUpdateTask(task.id, { name: newTaskName })}
         />
       </div>
-      <button className="task__delete-button" onClick={() => onRemove(task.id)}>
+      <button className="task__delete-button" onClick={() => onDeleteTask(task.id)}>
         <TrashIcon />
       </button>
     </section>

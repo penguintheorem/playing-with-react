@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Plus as PlusIcon } from 'react-feather'
+import ReactModal from 'react-modal'
+import './App.css'
+import { Modal } from './components/Modal/Modal'
 import { TaskListHeadings } from './components/TaskListNames/TaskListHeadings'
 import { TaskListView } from './components/TaskListView/TaskListView'
 import { UserProfile } from './components/UserProfile/UserProfile'
+import { useModal } from './hooks'
+import { reactModalStyles } from './styles/reactModalStyles'
+import { TaskContext } from './TaskContext'
 import { Task, TaskList as TaskListType, User } from './types'
 import { get, httpDelete, patch, post } from './utils/api'
-import { useModal } from './hooks'
-import ReactModal from 'react-modal'
-import { reactModalStyles } from './styles/reactModalStyles'
-import { Modal } from './components/Modal/Modal'
-import './App.css'
 
 type TaskResponse = {
   id: string
@@ -177,7 +178,7 @@ export const App = () => {
   }
 
   const handleDelete = async (taskId: string) => {
-    const response = await httpDelete<TaskResponse>(`/todos/${taskId}`)
+    await httpDelete<TaskResponse>(`/todos/${taskId}`)
 
     const newTasks = [...tasks]
     const oldTaskIndex = newTasks.findIndex(({ id }) => taskId === id)
@@ -218,15 +219,17 @@ export const App = () => {
             {taskLists.length === 0 || currentTaskListIndex < 0 ? (
               <p>No task lists available, please create or select a list</p>
             ) : (
-              <TaskListView
-                list={taskLists[currentTaskListIndex]}
-                tasks={tasks}
-                onCreateTask={handleCreate}
-                onUpdateTask={handleUpdate}
-                onDeleteTask={handleDelete}
-                onDeleteList={handleDeleteList}
-                onRenameList={handleRenameList}
-              />
+              <TaskContext.Provider
+                value={{ onUpdateTask: handleUpdate, onDeleteTask: handleDelete }}
+              >
+                <TaskListView
+                  list={taskLists[currentTaskListIndex]}
+                  tasks={tasks}
+                  onCreateTask={handleCreate}
+                  onDeleteList={handleDeleteList}
+                  onRenameList={handleRenameList}
+                />
+              </TaskContext.Provider>
             )}
           </div>
         </div>
