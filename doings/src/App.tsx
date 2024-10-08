@@ -54,9 +54,13 @@ export const App = () => {
 
         setTaskLists(taskLists.map(convertTaskListResponseToTaskList))
         setUser(user)
-      } catch (error: any) {
-        setErrorMessage(error.message)
-        openModal()
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setErrorMessage(error.message)
+          openModal()
+        } else {
+          console.error(`Logging an unrecognized error: ${error}`)
+        }
       }
     }
 
