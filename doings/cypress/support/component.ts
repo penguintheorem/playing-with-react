@@ -17,7 +17,7 @@
 import './commands'
 
 // Ensure global app styles are loaded:
-import '../../src/index.css'
+import '../../src/styles/main.css'
 
 import { mount } from 'cypress/react18'
 

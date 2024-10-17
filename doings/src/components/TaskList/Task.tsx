@@ -15,8 +15,9 @@ export const Task = ({ task }: Props) => {
   const { onDeleteTask, onUpdateTask } = useContext(TaskContext)
 
   return (
-    <section className={classNames('task', { 'task--is-active': isCompleted })}>
+    <section data-testid="task" className={classNames('task', { 'task--is-active': isCompleted })}>
       <input
+        data-testid="task-checkbox"
         className="task__checkbox"
         type="checkbox"
         checked={isCompleted}

@@ -22,9 +22,10 @@ export const AddTask = ({ onAddTask }: Props) => {
   }
 
   return (
-    <div className="add-task">
+    <div data-testid="add-task" className="add-task">
       <Plus />
       <input
+        data-testid="add-task-input"
         className="add-task__input"
         type="text"
         placeholder="Add a task"

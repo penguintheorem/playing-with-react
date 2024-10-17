@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Plus as PlusIcon } from 'react-feather'
 import ReactModal from 'react-modal'
-import './App.css'
 import { Modal } from './components/Modal/Modal'
-import { TaskListHeadings } from './components/TaskListNames/TaskListHeadings'
+import { TaskListHeadings } from './components/TaskListHeadings/TaskListHeadings'
 import { TaskListView } from './components/TaskListView/TaskListView'
 import { UserProfile } from './components/UserProfile/UserProfile'
 import { useModal } from './hooks'
@@ -11,6 +10,7 @@ import { reactModalStyles } from './styles/reactModalStyles'
 import { TaskContext } from './TaskContext'
 import { Task, TaskList as TaskListType, User } from './types'
 import { get, httpDelete, patch, post } from './utils/api'
+import './App.css'
 
 type TaskResponse = {
   id: string

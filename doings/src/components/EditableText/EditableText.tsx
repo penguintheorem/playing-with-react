@@ -17,6 +17,7 @@ export const EditableText = ({
 
   return (
     <input
+      data-testid="editable-text-input"
       disabled={!isEditable}
       type="text"
       value={text}
